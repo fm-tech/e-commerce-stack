@@ -31,11 +31,8 @@
                 </div>
                 <div id="Items" class="bg-white rounded-lg pt-4 pb-4 mt-4">
                     <div v-for="product in products" :key="product.id">
-                        <CartItem 
-                            :product="product" 
-                            :selectedArray="selectedArray"
-                            @selectedRadio="selectedRadioFunc" 
-                        />
+                        <CartItem :product="product" :selectedArray="selectedArray"
+                            @selectedRadio="selectedRadioFunc" />
                     </div>
                 </div>
             </div>
@@ -46,7 +43,26 @@
                         Summary
                     </div>
                     <div class="flex items-center justify-between my-4">
-
+                        <div class="font-semibold">Total</div>
+                        <div class="text-2xl font-semibold">
+                            $ <span class="font-extrabold">
+                                {{ totalPriceComputed }}
+                            </span>
+                        </div>
+                    </div>
+                    <button @click="goToCheckout" class="flex items-center justify-center
+                        bg-[#FD374F] w-full text-white text-[21px]
+                        font-semibold p-1.5 rounded-full mt-4
+                        ">
+                        Checkout
+                    </button>
+                </div>
+                <div id="PaymentProtection" class="bg-white rounded-lg p-4 mt-">
+                    <div class="text-lg font-semibold mb-2">Payment Methods</div>
+                    <div class="flex items-center justify-start gap-8 my-">
+                        <div v-for="card in cards" :key="card">
+                            <img :src="card" alt="" class="h-6">
+                        </div>
                     </div>
                 </div>
             </div>
@@ -55,6 +71,61 @@
 </template>
 
 <script setup>
+import { useUserStore } from '~/stores/user'
+const userStore = useUserStore()
+
+
+
+let selectedArray = ref([
+    setTimeout(() => userStore.isLoading = false, 200)
+])
+
+const cards = ref([
+    'visa.png',
+    'mastercard.png',
+    'paypal.png',
+    'applepay.png',
+])
+
+
+const totalPriceComputed = computed(() => {
+    let price = 0
+    userStore.cart.forEach(prod => {
+        price += prod.price
+    })
+    return price / 100
+})
+
+const selectedRadioFunc = (e) => {
+    if (!selectedArray.value.length) {
+        selectedArray.value.push(e)
+        return
+    }
+
+    selectedArray.value.forEach((item, index) => {
+        if(e.id != item.id){
+            selectedArray.value.push(e)
+        } else {
+            selectedArray.value.splice(index, 1)
+        }
+    })
+}
+
+const goToCheckout = () => {
+    let ids = []
+    userStore.checkout = []
+
+    selectedArray.value.forEach(item => ids.push(item.id))
+
+    let res = userStore.cart.filter((item) => {
+        return ids.indexOf(item.id) != -1
+    })
+
+    res.forEach(item => userStore.checkout.push(toRaw(item)))
+    return navigateTo('/checkout')
+}
+
+
 const products = [
     {
         id: 1, title: "Title",
@@ -72,18 +143,6 @@ const products = [
         id: 3, title: "Title",
         description: "This is a description",
         url: "https://picsum.photos/id/345/800",
-        price: "9999"
-    },
-    {
-        id: 4, title: "Title",
-        description: "This is a description",
-        url: "https://picsum.photos/id/145/800",
-        price: "9999"
-    },
-    {
-        id: 5, title: "Title",
-        description: "This is a description",
-        url: "https://picsum.photos/id/363/800",
         price: "9999"
     },
     {

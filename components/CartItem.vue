@@ -36,6 +36,13 @@
             <p class="text-[#009A66] text-xs font-semibold pt-1">
                 Free Shipping
             </p>
+            <div class="flex items-center justify-end">
+                <button 
+                @click="removeFromCart()"
+                class="mx-3 sm:block hidden -mt-0.5 hover:text-red-500">
+                    <Icon name="" size="20" />
+                </button>
+            </div>
         </div>
     </div>
 </template>
