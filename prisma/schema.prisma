@@ -40,6 +40,18 @@ model Orders {
 model OrderItem {
   id            Int             @id @default(autoincrement())
   orderId       Int
+  productId     Int
   created_at    DateTime        @default(now()) @db.Timestamptz()
   order         Orders          @relation(fields: [orderId], references: [id])
+  product       Products        @relation(fields: [productId], references: [id])
+}
+
+model Products {
+  id            Int             @id @default(autoincrement())
+  title         String
+  description   String
+  url           String
+  price         Int
+  created_at    DateTime?       @default(now()) @db.Timestamptz()
+  orderItem     OrderItem[]
 }
