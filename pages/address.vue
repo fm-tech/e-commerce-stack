@@ -49,7 +49,8 @@ let isUpdate        = ref(null)
 let isWorking       = ref(null)
 let error           = ref(null)
 
-watchEffect(() => {
+watchEffect(async () => {
+    currentAddress.value = await useFetch(`/api/prisma/get-address-by-user/${user.value.id}`)
     userStore.isLoading = false
 })
 
