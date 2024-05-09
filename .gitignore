@@ -9,6 +9,17 @@ dist
 # Node dependencies
 node_modules
 
+# Prisma
+yarn-error.log/
+vendor/
+tmp/
+dist/
+javascript/**/migrations/
+typescript/**/migrations/
+misc/**/migrations/
+databases/**/migrations/
+experimental/**/*.db
+
 # Logs
 logs
 *.log
