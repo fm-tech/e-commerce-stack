@@ -15,6 +15,10 @@ export default defineNuxtConfig({
       stripePk: process.env.STRIPE_PK_KEY,
     }
   },
+  // Need to have this so redirect is not forced to /login
+  supabase: {
+    redirect: false,
+  },
   app: {
     head: {
       script: [

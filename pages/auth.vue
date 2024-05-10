@@ -7,6 +7,8 @@
             </NuxtLink>
         </div>
 
+        {{ user }}
+
         <div class="max-w-[400px] mx-auto px-2">
             <div class="text-center my-6">Login / Register</div>
             <button @click="login(google)" class="flex
@@ -49,11 +51,11 @@
 const client    = useSupabseClient()
 const user      = useSupabaseUser()
 
-watchEffect(() => {
-    if(user.value) {
-        return navigateTo('/')
-    }
-})
+// watchEffect(() => {
+//     if(user.value) {
+//         return navigateTo('/')
+//     }
+// })
 
 const login = async (prov) => {
     const {data, error} = await client.auth.signInWithOAuth({
