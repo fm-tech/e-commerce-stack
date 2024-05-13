@@ -11,7 +11,7 @@
 
         <div class="max-w-[400px] mx-auto px-2">
             <div class="text-center my-6">Login / Register</div>
-            <button @click="login(google)" class="flex
+            <button @click="login('google')" class="flex
                     items-center
                     justify-center
                     gap-3
@@ -26,7 +26,7 @@
                 <img class="w-full max-w-[30px]" src="/google-logo.png" alt="google">
                 <div>Google</div>
             </button>
-            <button @click="login(github)" class="
+            <button @click="login('github')" class="
                     mt-4
                     flex
                     items-center
@@ -48,7 +48,7 @@
 </template>
 
 <script setup>
-const client    = useSupabseClient()
+const client    = useSupabaseClient()
 const user      = useSupabaseUser()
 
 watchEffect(() => {
@@ -60,6 +60,7 @@ watchEffect(() => {
 const login = async (prov) => {
     const {data, error} = await client.auth.signInWithOAuth({
         provider: prov,
+        redirectTo: window.location.origin
     })
 }
 
