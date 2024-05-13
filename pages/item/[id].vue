@@ -48,7 +48,7 @@
                     Free Shipping
                 </p>
                 <div class="py-2" />
-                <button class="px-6 py-2 rounded-lg text-white font-semibold 
+                <button @click="addToCart()" :disabled="isInCart" class="px-6 py-2 rounded-lg text-white font-semibold 
                 bg-gradient-to-r
                 from-[#FF851A]
                 to-[#FFAC2C]">
@@ -81,13 +81,14 @@ watchEffect(() => {
 })
 
 
-const isIncart = computed(() => {
-    let res = false 
+const isInCart = computed(() => {
+    let res = false
     userStore.cart.forEach(prod => {
-        if(route.params.id == prod.id){
+        if (route.params.id == prod.id) {
             res = true
         }
     })
+    return res
 })
 
 

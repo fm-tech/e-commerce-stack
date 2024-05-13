@@ -51,11 +51,11 @@
 const client    = useSupabseClient()
 const user      = useSupabaseUser()
 
-// watchEffect(() => {
-//     if(user.value) {
-//         return navigateTo('/')
-//     }
-// })
+watchEffect(() => {
+    if(user.value) {
+        return navigateTo('/')
+    }
+})
 
 const login = async (prov) => {
     const {data, error} = await client.auth.signInWithOAuth({
